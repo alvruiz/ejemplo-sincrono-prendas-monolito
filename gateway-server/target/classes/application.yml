@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: clothing
+          # si se despliega en docker: uri: lb://clothing
+          uri: http://localhost:8081
+          predicates:
+            - Path=/clothing/**
+        - id: users
+          # si se despliega en docker: uri: lb://users
+          uri: http://localhost:8080
+          predicates:
+            - Path=/users/**

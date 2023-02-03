@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+
+  config-server:
+    build: ./config-server
+    hostname: config-server
+    ports:
+      - "8888:8888"
+    restart: always
+
+  eureka-server:
+    build: ./eureka-server
+    hostname: eureka-server
+    ports:
+      - "8761:8761"
+  gateway-server:
+    build: ./gateway-server
+    hostname: gateway-server
+    ports:
+      - "8090:8090"
+    environment:
+      - "EUREKA_SERVER=eureka-server"
+  monolith-db:
+    image: mysql
+    ports:
+      - "3308:3306"
+    volumes:
+      - volumen-monolith:/var/lib/mysql
+    environment:
+      - "MYSQL_DATABASE=monolith-db"
+      - "MYSQL_ROOT_PASSWORD=12345"
+
+
+volumes:
+  volumen-monolith:
+
+networks:
+  local:
